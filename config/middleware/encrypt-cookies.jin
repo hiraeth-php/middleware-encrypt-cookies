@@ -18,13 +18,6 @@
 
 	class = Ellipse\Cookies\EncryptCookiesMiddleware
 
-
-	;
-	;
-	;
-
-	key = env('KEY')
-
 	;
 	; A list of cookie names to not encrypt
 	;
