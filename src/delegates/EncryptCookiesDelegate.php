@@ -3,7 +3,6 @@
 namespace Hiraeth\Middleware;
 
 use Hiraeth;
-use Defuse\Crypto\Key;
 use Ellipse\Cookies\EncryptCookiesMiddleware;
 
 /**
@@ -36,13 +35,10 @@ class EncryptCookiesDelegate implements Hiraeth\Delegate
 		$middleware = $app->getConfig('*', 'middleware.class', NULL);
 		$collection = array_search(EncryptCookiesMiddleware::class, $middleware);
 		$options    = $app->getConfig($collection, 'middleware', [
-			'key'    => NULL,
 			'bypass' => []
 		]);
 
-		return new EncryptCookiesMiddleware(
-			$options['key'] ? Key::loadFromAsciiSafeString($options['key']) : Key::createNewRandomKey(),
-			$options['bypass']
-		);
+
+		return new EncryptCookiesMiddleware($app->getKey(), $options['bypass']);
 	}
 }
