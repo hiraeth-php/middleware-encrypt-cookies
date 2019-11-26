@@ -3,42 +3,32 @@
 namespace Hiraeth\Middleware;
 
 use Hiraeth;
-use Ellipse\Cookies\EncryptCookiesMiddleware;
 
 /**
- *
+ * {@inheritDoc}
  */
 class EncryptCookiesDelegate implements Hiraeth\Delegate
 {
 	/**
-	 * Get the class for which the delegate operates.
-	 *
-	 * @static
-	 * @access public
-	 * @return string The class for which the delegate operates
+	 * {@inheritDoc}
 	 */
 	static public function getClass(): string
 	{
-		return EncryptCookiesMiddleware::class;
+		return EncryptCookies::class;
 	}
 
 
 	/**
-	 * Get the instance of the class for which the delegate operates.
-	 *
-	 * @access public
-	 * @param Hiraeth\Application $app The application instance for which the delegate operates
-	 * @return object The instance of the class for which the delegate operates
+	 * {@inheritDoc}
 	 */
 	public function __invoke(Hiraeth\Application $app): object
 	{
 		$middleware = $app->getConfig('*', 'middleware.class', NULL);
-		$collection = array_search(EncryptCookiesMiddleware::class, $middleware);
+		$collection = array_search(EncryptCookies::class, $middleware);
 		$options    = $app->getConfig($collection, 'middleware', [
 			'bypass' => []
 		]);
 
-
-		return new EncryptCookiesMiddleware($app->getKey(), $options['bypass']);
+		return new EncryptCookies($app->getKey(), $options['bypass']);
 	}
 }

@@ -16,7 +16,7 @@
 	; The middleware class
 	;
 
-	class = Ellipse\Cookies\EncryptCookiesMiddleware
+	class = Hiraeth\Middleware\EncryptCookies
 
 	;
 	; A list of cookie names to not encrypt
