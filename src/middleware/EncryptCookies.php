@@ -83,7 +83,7 @@ class EncryptCookies implements Middleware
 
 		$response = $handler->handle($request);
 
-		foreach (FigCookies\SetCookies::fromResponse($request) as $set_cookie) {
+		foreach (FigCookies\SetCookies::fromResponse($response) as $set_cookie) {
 			if (!in_array($set_cookie->getName(), $this->bypass)) {
 				$response = FigCookies\FigResponseCookies::modify(
 					$response,
