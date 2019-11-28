@@ -7,8 +7,16 @@ use Hiraeth;
 /**
  * {@inheritDoc}
  */
-class EncryptCookiesDelegate implements Hiraeth\Delegate
+class EncryptCookiesDelegate extends AbstractDelegate
 {
+	/**
+	 * {@inheritDoc}
+	 */
+	protected static $defaultOptions = [
+		'bypass' => array()
+	];
+
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -23,11 +31,7 @@ class EncryptCookiesDelegate implements Hiraeth\Delegate
 	 */
 	public function __invoke(Hiraeth\Application $app): object
 	{
-		$middleware = $app->getConfig('*', 'middleware.class', NULL);
-		$collection = array_search(EncryptCookies::class, $middleware);
-		$options    = $app->getConfig($collection, 'middleware', [
-			'bypass' => []
-		]);
+		$options = $this->getOptions();
 
 		return new EncryptCookies($app->getKey(), $options['bypass']);
 	}
