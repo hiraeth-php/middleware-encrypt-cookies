@@ -18,10 +18,12 @@
 
 	class = Hiraeth\Middleware\EncryptCookies
 
-	;
-	; A list of cookie names to not encrypt
-	;
+	[&.options]
 
-	bypass = [
+		;
+		; A list of cookie names to not encrypt
+		;
 
-	]
+		bypass = [
+
+		]
