@@ -12,6 +12,8 @@ use Psr\Http\Message\ResponseInterface as Response;
 
 use Defuse\Crypto;
 use Dflydev\FigCookies;
+use Laminas\Diactoros\ServerRequest;
+use RuntimeException;
 
 /**
  * {@inheritDoc}
@@ -21,7 +23,7 @@ class EncryptCookies implements Middleware
 	/**
 	 * A list of cookie names not to encrypt/decrypt
 	 *
-	 * @var array
+	 * @var array<int, string>
 	 */
 	protected $bypass = array();
 
@@ -36,6 +38,8 @@ class EncryptCookies implements Middleware
 
 	/**
 	 * Create a new instance of the middleware
+	 *
+	 * @param array<int, string> $bypass
 	 */
 	public function __construct(Crypto\Key $key, array $bypass = array())
 	{
@@ -71,7 +75,7 @@ class EncryptCookies implements Middleware
 	 */
 	public function process(Request $request, Handler $handler): Response
 	{
-		foreach (FigCookies\Cookies::fromRequest($request) as $cookie) {
+		foreach (FigCookies\Cookies::fromRequest($request)->getAll() as $cookie) {
 			if (!in_array($cookie->getName(), $this->bypass)) {
 				$request = FigCookies\FigRequestCookies::modify(
 					$request,
@@ -81,9 +85,15 @@ class EncryptCookies implements Middleware
 			}
 		}
 
+		if (!$request instanceof Request) {
+			throw new RuntimeException(sprintf(
+				'Modification of cookies on server request resulted in conversion to request'
+			));
+		}
+
 		$response = $handler->handle($request);
 
-		foreach (FigCookies\SetCookies::fromResponse($response) as $set_cookie) {
+		foreach (FigCookies\SetCookies::fromResponse($response)->getAll() as $set_cookie) {
 			if (!in_array($set_cookie->getName(), $this->bypass)) {
 				$response = FigCookies\FigResponseCookies::modify(
 					$response,
