@@ -2,8 +2,6 @@
 
 namespace Hiraeth\Middleware;
 
-use Hiraeth;
-
 use Psr\Http\Server\MiddlewareInterface as Middleware;
 use Psr\Http\Server\RequestHandlerInterface as Handler;
 
@@ -12,7 +10,8 @@ use Psr\Http\Message\ResponseInterface as Response;
 
 use Defuse\Crypto;
 use Dflydev\FigCookies;
-use Laminas\Diactoros\ServerRequest;
+
+use Exception;
 use RuntimeException;
 
 /**
@@ -64,7 +63,7 @@ class EncryptCookies implements Middleware
 	{
 		try {
 			return $cookie->withValue(Crypto\Crypto::decrypt($cookie->getValue(), $this->key));
-		} catch (\Exception $e) {
+		} catch (Exception $e) {
 			return $cookie->withValue('');
 		}
 	}
