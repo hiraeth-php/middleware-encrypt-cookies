@@ -17,15 +17,16 @@
         ]
     },
     "require": {
-        "hiraeth/app": "^2.0",
+        "hiraeth/app": "^3.0",
         "dflydev/fig-cookies": "^3.0",
-        "defuse/php-encryption": "^2.2",
-        "hiraeth/middleware-imp": "^2.0"
+        "defuse/php-encryption": "^2.0",
+        "hiraeth/middleware-imp": "^3.0"
     },
     "require-dev": {
         "phpstan/phpstan": "^1.0",
-        "hiraeth/middleland": "^2.0",
-        "hiraeth/diactoros": "^2.0"
+	"phpunit/phpunit": "^10.0",
+        "hiraeth/harmony": "^3.0",
+        "hiraeth/diactoros": "^3.0"
     },
     "type": "opus-package",
     "extra": {
