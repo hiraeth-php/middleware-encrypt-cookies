@@ -11,11 +11,6 @@
             "role":  "Lead Architect / Developer"
         }
     ],
-    "autoload": {
-        "classmap": [
-            "src/"
-        ]
-    },
     "require": {
         "hiraeth/app": "^3.0",
         "dflydev/fig-cookies": "^3.0",
@@ -24,9 +19,19 @@
     },
     "require-dev": {
         "phpstan/phpstan": "^1.0",
-	"phpunit/phpunit": "^10.0",
+        "phpunit/phpunit": "^10.0",
         "hiraeth/harmony": "^3.0",
         "hiraeth/diactoros": "^3.0"
+    },
+    "autoload": {
+        "classmap": [
+            "src"
+        ]
+    },
+    "autoload-dev": {
+        "classmap": [
+            "test/src"
+        ]
     },
     "type": "opus-package",
     "extra": {
