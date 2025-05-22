@@ -61,6 +61,10 @@ class EncryptCookies implements Middleware
 	 */
 	public function decrypt(FigCookies\Cookie $cookie): FigCookies\Cookie
 	{
+		if (!$cookie->getValue()) {
+			return $cookie->withValue('');
+		}
+		
 		try {
 			return $cookie->withValue(Crypto\Crypto::decrypt($cookie->getValue(), $this->key));
 		} catch (Exception $e) {
